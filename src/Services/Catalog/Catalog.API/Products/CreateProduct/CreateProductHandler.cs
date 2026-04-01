@@ -1,16 +1,43 @@
-using MediatR;
-
 namespace Catalog.API.Products.CreateProduct;
-public record CreateProductCommand(string Name, List<string>Category, decimal Price, string Description)
-    : IRequest<CreateProductResult>;
+
+
+public record CreateProductCommand(string Name, List<string>Category, decimal Price, string Description,string ImageFile)
+    : ICommand<CreateProductResult>;
 
 public record CreateProductResult(Guid Id);
 
-internal class CreateProductHandler: IRequestHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
-    public Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    //MEDIATOR PipelineBehaviour automatically invoke all these validation
+    public CreateProductCommandValidator()
     {
-        //Business logic to create new product
-        throw new NotImplementedException();
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Product name is required");
+        RuleFor(x => x.Category).NotEmpty().WithMessage("Category is required");
+        RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
+    }
+}
+
+
+internal class CreateProductHandler (IDocumentSession session)
+    : ICommandHandler<CreateProductCommand, CreateProductResult>
+{
+    public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+    {
+        
+        
+        //Create a Product Entity from command object
+        var product = new Product
+        {
+            Name = command.Name,
+            Category = command.Category,
+            Price = command.Price,
+            Description = command.Description,
+            ImageFile = command.ImageFile
+        };
+        //Save to database
+        session.Store(product);
+        await session.SaveChangesAsync(cancellationToken);
+        //Return a CreateProductResult
+      return new CreateProductResult(product.Id);
     }
 }

@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  catalog.api:
+    build:
+      context: "/Users/mac/RiderProjects/micro_services/src"
+      dockerfile: "Services/Catalog/Catalog.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Catalog.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "catalog.api:dev"
+    ports: []
+    volumes:
+    - "/Users/mac/RiderProjects/micro_services/src/Services/Catalog/Catalog.API:/app:rw"
+    - "/Users/mac/RiderProjects/micro_services/src:/src:rw"
+    - "/Users/mac/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"

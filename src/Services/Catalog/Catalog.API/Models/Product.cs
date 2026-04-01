@@ -12,5 +12,5 @@ public class Product
     
     public decimal Price { get; set; }
     
-    public string ImageFile { get; init; } = default!;
+    public string ImageFile { get; set; } = default!;
 }

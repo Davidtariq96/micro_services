@@ -1,0 +1,48 @@
+﻿
+
+services:
+  catalogdb:
+    image: postgres:16-alpine        
+    container_name: catalogdb
+    ports:
+      - "5432:5432"                    
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Jay12348!
+      POSTGRES_DB: CatalogDB
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data
+    restart: always
+    healthcheck: 
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+  
+
+  catalog.api:
+    image: catalog.api
+    ports:
+      - "6000:8080"
+#      - "6001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080;
+      - ConnectionStrings__Database=Host=catalogdb;Port=5432;Database=CatalogDB;Username=postgres;Password=Jay12348!;Include Error Detail=true
+    volumes:
+      # Mac-friendly volumes for User Secrets and HTTPS certificate
+      - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - ${HOME}/.aspnet/https:/root/.aspnet/https:ro
+    depends_on:
+      catalogdb:
+        condition: service_healthy
+    restart: unless-stopped
+      # Give PostgreSQL extra time to be fully ready
+    entrypoint: [ "sh", "-c", "sleep 20 && dotnet Catalog.API.dll" ]
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+      
+volumes:
+  postgres_catalog:
