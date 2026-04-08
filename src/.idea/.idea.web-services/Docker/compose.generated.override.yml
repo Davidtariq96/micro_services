@@ -18,3 +18,21 @@ services:
     - "/Users/mac/RiderProjects/micro_services/src:/src:rw"
     - "/Users/mac/.nuget/packages:/home/app/.nuget/packages"
     working_dir: "/app"
+  discount.grpc:
+    build:
+      context: "/Users/mac/RiderProjects/micro_services/src"
+      dockerfile: "Services/Discount/Discount.Grpc/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/Discount.Grpc.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "discount.grpc:dev"
+    ports: []
+    volumes:
+    - "/Users/mac/RiderProjects/micro_services/src/Services/Discount/Discount.Grpc:/app:rw"
+    - "/Users/mac/RiderProjects/micro_services/src:/src:rw"
+    - "/Users/mac/.nuget/packages:/root/.nuget/packages"
+    working_dir: "/app"

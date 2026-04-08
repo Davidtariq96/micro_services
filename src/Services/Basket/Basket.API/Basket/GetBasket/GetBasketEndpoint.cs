@@ -12,7 +12,7 @@ public class GetBasketEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         //Send query-params via delegate method on the api url to handler using mediator
-        app.MapGet("/basket{userName}", async ( string userName ,ISender sender) =>
+        app.MapGet("/basket/{userName}", async ( string userName ,ISender sender) =>
         {
             var result = await sender.Send(new GetBasketQuery(userName));
             
