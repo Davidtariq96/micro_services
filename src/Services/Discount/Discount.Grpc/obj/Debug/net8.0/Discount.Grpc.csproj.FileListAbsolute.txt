@@ -163,3 +163,4 @@
 /Users/mac/RiderProjects/micro_services/src/Services/Discount/Discount.Grpc/obj/Debug/net8.0/Discount.Grpc.pdb
 /Users/mac/RiderProjects/micro_services/src/Services/Discount/Discount.Grpc/obj/Debug/net8.0/Discount.Grpc.genruntimeconfig.cache
 /Users/mac/RiderProjects/micro_services/src/Services/Discount/Discount.Grpc/obj/Debug/net8.0/ref/Discount.Grpc.dll
+/Users/mac/RiderProjects/micro_services/src/Services/Discount/Discount.Grpc/bin/Debug/net8.0/Grpc.HealthCheck.dll

@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+        <PackageReference Include="Grpc.HealthCheck" Version="2.70.0" />
         <PackageReference Include="Mapster" Version="10.0.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.13" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.14">

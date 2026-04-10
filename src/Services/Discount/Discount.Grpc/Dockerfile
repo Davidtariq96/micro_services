@@ -12,6 +12,7 @@ RUN dotnet restore "Services/Discount/Discount.Grpc/Discount.Grpc.csproj"
 COPY . .
 WORKDIR "/src/Services/Discount/Discount.Grpc"
 RUN dotnet build "./Discount.Grpc.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
@@ -21,4 +22,5 @@ FROM base AS final
 WORKDIR /app
 #RUN #mkdir -p /app/data && chown -R $APP_UID /app/data
 COPY --from=publish /app/publish .
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 ENTRYPOINT ["dotnet", "Discount.Grpc.dll"]
